@@ -1,26 +1,318 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─────────────────────────────────────────────────────────────
+   AIDrops — design tokens
+   Warm paper base. Ink near-black. One vivid "drop" accent.
+   Linear's type discipline + The Verge's editorial warmth.
+   ───────────────────────────────────────────────────────────── */
+
+@theme {
+  /* surfaces */
+  --color-paper:       #F8F4EC;   /* page background — warm off-white */
+  --color-paper-soft:  #F3EEE3;   /* subtle tint for panels / alt sections */
+  --color-card:        #FFFFFF;   /* floating cards over paper */
+  --color-ink:         #17161C;   /* primary text — warm near-black */
+  --color-ink-2:       #44424D;   /* body / secondary text */
+  --color-ink-3:       #7A7883;   /* muted / metadata */
+  --color-ink-4:       #ADA9B3;   /* tertiary / placeholders */
+  --color-line:        #E8E1D2;   /* warm hairline, sits on paper */
+  --color-line-strong: #D6CDB8;
+
+  /* brand — "drop" */
+  --color-drop:        #FF4A1C;   /* vivid coral-red, single chromatic accent */
+  --color-drop-hover:  #FF6A42;
+  --color-drop-ink:    #B42F0F;   /* drop-on-light text */
+  --color-drop-soft:   #FFE3D9;   /* drop tint backgrounds */
+
+  /* secondary spark — reserved for NEW markers */
+  --color-spark:       #D6FF00;   /* electric lime */
+  --color-spark-ink:   #3B4A00;
+
+  /* semantic */
+  --color-success:     #0F8A5F;
+  --color-warn:        #B8680C;
+  --color-danger:      #C3341A;
+
+  /* category palette — 12 tinted hues within the editorial warm system */
+  --color-cat-ai-tools:         #5A4BFF;
+  --color-cat-ai-agents:        #0070D1;
+  --color-cat-github-repos:     #17161C;
+  --color-cat-workflows:        #0F8A5F;
+  --color-cat-ai-news:          #FF4A1C;
+  --color-cat-tutorials:        #B8680C;
+  --color-cat-skills:           #7A2FF0;
+  --color-cat-learning:         #C82183;
+  --color-cat-courses:          #0BA8A8;
+  --color-cat-systems:          #3D5A80;
+  --color-cat-ai-in-sdlc:       #8B5A2B;
+  --color-cat-useful-ai-tips:   #2F6B1F;
+
+  /* difficulty */
+  --color-diff-beginner:     #0F8A5F;
+  --color-diff-intermediate: #B8680C;
+  --color-diff-advanced:     #C3341A;
+
+  /* typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-display: var(--font-inter), ui-sans-serif, system-ui;
+
+  /* radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 22px;
+  --radius-pill: 9999px;
+
+  /* shadows — warm-tinted, low opacity */
+  --shadow-soft: 0 1px 2px rgba(23,22,28,0.04), 0 0 0 1px rgba(23,22,28,0.04);
+  --shadow-card: 0 1px 2px rgba(23,22,28,0.04), 0 8px 24px rgba(23,22,28,0.06);
+  --shadow-lift: 0 1px 2px rgba(23,22,28,0.05), 0 16px 48px rgba(23,22,28,0.10);
+
+  /* animation easing */
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ─── Base styles ───────────────────────────────────────────── */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  background: var(--color-paper);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv01", "ss03", "ss01";
+  font-size: 19px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-drop);
+  color: #fff;
+}
+
+/* Disable motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Typography utilities ──────────────────────────────────── */
+
+.type-display {
+  font-family: var(--font-display);
+  font-weight: 510;
+  font-variation-settings: "wght" 510;
+  line-height: 0.95;
+  letter-spacing: -0.032em;
+}
+
+.type-display-xl {
+  font-family: var(--font-display);
+  font-weight: 510;
+  font-variation-settings: "wght" 510;
+  font-size: clamp(3rem, 9vw, 6.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+.type-h1 {
+  font-family: var(--font-display);
+  font-weight: 510;
+  font-variation-settings: "wght" 510;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.028em;
+}
+
+.type-h2 {
+  font-family: var(--font-display);
+  font-weight: 510;
+  font-variation-settings: "wght" 510;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.022em;
+}
+
+.type-h3 {
+  font-family: var(--font-display);
+  font-weight: 590;
+  font-variation-settings: "wght" 590;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  letter-spacing: -0.014em;
+}
+
+.type-lede {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.55;
+  letter-spacing: -0.008em;
+  color: var(--color-ink-2);
+}
+
+.type-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1.1875rem; /* 19px */
+  line-height: 1.75;
+  color: var(--color-ink);
+}
+
+.type-meta {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+.prose-body {
+  max-width: 65ch;
+}
+
+.prose-body p + p {
+  margin-top: 1.25em;
+}
+
+/* ─── Gradient mesh for hero ────────────────────────────────── */
+
+.gradient-mesh {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 20%, rgba(255,74,28,0.18), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 85% 10%, rgba(214,255,0,0.15), transparent 65%),
+    radial-gradient(ellipse 90% 70% at 70% 85%, rgba(90,75,255,0.12), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 10% 90%, rgba(255,74,28,0.08), transparent 70%);
+  filter: blur(8px) saturate(115%);
+  animation: mesh-drift 22s cubic-bezier(0.45,0.05,0.55,0.95) infinite alternate;
+}
+
+@keyframes mesh-drift {
+  0%   { transform: translate3d(-2%, -1%, 0) scale(1.02); }
+  50%  { transform: translate3d(1.5%, 2%, 0) scale(1.05); }
+  100% { transform: translate3d(-1%, 1%, 0) scale(1.02); }
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* ─── Surfaces ──────────────────────────────────────────────── */
+
+.hairline {
+  border: 1px solid var(--color-line);
+}
+
+.card {
+  background: var(--color-card);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow 220ms var(--ease-out-expo), transform 220ms var(--ease-out-expo), border-color 220ms;
+}
+.card:hover {
+  box-shadow: var(--shadow-card);
+  border-color: var(--color-line-strong);
+}
+
+/* ─── Buttons ───────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 44px;
+  padding: 0 1.25rem;
+  border-radius: var(--radius-pill);
+  font-weight: 510;
+  font-variation-settings: "wght" 510;
+  font-size: 0.95rem;
+  letter-spacing: -0.005em;
+  transition: transform 180ms var(--ease-out-expo), background-color 180ms, box-shadow 180ms;
+  will-change: transform;
+}
+
+.btn-primary {
+  background: var(--color-drop);
+  color: #fff;
+  box-shadow: 0 1px 0 rgba(180,47,15,0.35) inset, 0 6px 18px rgba(255,74,28,0.25);
+}
+.btn-primary:hover {
+  background: var(--color-drop-hover);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-ink);
+  border: 1px solid var(--color-line);
+}
+.btn-ghost:hover {
+  background: var(--color-paper-soft);
+  border-color: var(--color-line-strong);
+}
+
+/* ─── Badges / pills ────────────────────────────────────────── */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 24px;
+  padding: 0 0.625rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.7rem;
+  font-weight: 510;
+  font-variation-settings: "wght" 510;
+  letter-spacing: 0.02em;
+  border: 1px solid var(--color-line);
+  background: var(--color-paper-soft);
+  color: var(--color-ink-2);
+  white-space: nowrap;
+}
+
+.pill-new {
+  background: var(--color-spark);
+  color: var(--color-spark-ink);
+  border-color: transparent;
+}
+
+/* ─── Utility: smooth underline for inline links ────────────── */
+
+.ink-link {
+  color: var(--color-ink);
+  text-decoration: none;
+  background-image: linear-gradient(var(--color-drop), var(--color-drop));
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 260ms var(--ease-out-expo);
+}
+.ink-link:hover {
+  background-size: 100% 2px;
 }
