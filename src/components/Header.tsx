@@ -1,8 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { chromeFade } from "@/lib/motion/variants";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -12,10 +10,7 @@ const navItems = [
 
 export function Header() {
   return (
-    <motion.header
-      variants={chromeFade}
-      initial="hidden"
-      animate="show"
+    <header
       className="sticky top-0 z-40 backdrop-blur-md bg-[color:var(--color-paper)]/80 border-b border-[color:var(--color-line)]"
     >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10 h-[68px] flex items-center justify-between">
@@ -77,6 +72,6 @@ export function Header() {
           50% { box-shadow: 0 0 0 8px rgba(255, 74, 28, 0); transform: scale(1.15); }
         }
       `}</style>
-    </motion.header>
+    </header>
   );
 }

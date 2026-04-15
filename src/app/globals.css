@@ -190,6 +190,32 @@ body {
   margin-top: 1.25em;
 }
 
+/* ─── Hero entry animation (CSS — SSR-safe, always runs) ───────── */
+/*
+ * Pure CSS entrance. Runs with or without JS. animation-fill-mode: both
+ * ensures children hold at 0 before their delay, then hit final state and
+ * stay there forever. Delays are kept short (total ~0.9s to final item)
+ * so screenshot tooling can catch it.
+ */
+
+.hero-stagger > * {
+  animation: hero-reveal 0.55s var(--ease-out-expo) both;
+}
+
+@keyframes hero-reveal {
+  0%   { opacity: 0; transform: translateY(14px); filter: blur(4px); }
+  100% { opacity: 1; transform: none;            filter: blur(0);   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    animation: none !important;
+  }
+}
+
 /* ─── Gradient mesh for hero ────────────────────────────────── */
 
 .gradient-mesh {
