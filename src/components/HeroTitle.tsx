@@ -24,7 +24,7 @@ export function HeroTitle({ text }: { text: string }) {
 
   if (!mounted) {
     return (
-      <h1 aria-label={text} className="type-display-xl tracking-tight">
+      <h1 aria-label={text} className="type-display-xl tracking-tight whitespace-nowrap">
         {text}
       </h1>
     );
@@ -33,7 +33,7 @@ export function HeroTitle({ text }: { text: string }) {
   return (
     <motion.h1
       aria-label={text}
-      className="type-display-xl tracking-tight"
+      className="type-display-xl tracking-tight whitespace-nowrap"
       initial="hidden"
       animate="show"
       variants={titleContainer}

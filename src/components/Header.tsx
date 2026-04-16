@@ -4,6 +4,7 @@ import Link from "next/link";
 
 const navItems = [
   { label: "Home", href: "/" },
+  { label: "How Can I Start?", href: "/start" },
   { label: "Categories", href: "/category/ai-tools" },
   { label: "About", href: "/about" },
 ];
@@ -58,12 +59,7 @@ export function Header() {
           ))}
         </nav>
 
-        <Link
-          href="/admin"
-          className="btn btn-ghost h-9 text-[0.85rem] hidden sm:inline-flex"
-        >
-          Submit a drop
-        </Link>
+        <div className="hidden sm:block w-[120px]" />
       </div>
 
       <style jsx>{`

@@ -9,7 +9,7 @@ export function Footer() {
             AIDrops<span style={{ color: "var(--color-drop)" }}>.</span>
           </div>
           <p className="mt-2 text-sm text-[color:var(--color-ink-3)] max-w-xs">
-            Fresh AI intel, dropped daily. Tools, agents, repos, workflows &amp; trends — curated from the people actually shipping.
+            Fresh AI intel, dropped daily. Tools, agents, repos, and workflows — curated by IT professionals who actually use this stuff.
           </p>
         </div>
 

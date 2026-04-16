@@ -191,16 +191,15 @@ export function ArticleContent({
           variants={revealItem}
           className="mb-10 p-4 rounded-[var(--radius-md)] border border-[color:var(--color-line)] bg-[color:var(--color-paper-soft)] text-sm text-[color:var(--color-ink-3)]"
         >
-          Originally spotted on{" "}
+          Inspired by a{" "}
           <a
             href={article.source_tiktok_url}
             target="_blank"
             rel="noopener noreferrer"
             className="ink-link"
           >
-            TikTok
+            video from {article.author_handle ? `@${article.author_handle}` : "a creator"}
           </a>
-          {article.author_handle && ` by @${article.author_handle}`}
         </motion.div>
       )}
 

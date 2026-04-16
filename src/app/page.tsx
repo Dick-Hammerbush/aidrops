@@ -1,6 +1,9 @@
 import { Hero } from "@/components/Hero";
+import { NewsTicker } from "@/components/NewsTicker";
 import { LatestDrops } from "@/components/LatestDrops";
 import { createServiceClient } from "@/lib/supabase/server";
+
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const supabase = createServiceClient();
@@ -11,10 +14,15 @@ export default async function Home() {
     .order("published_at", { ascending: false })
     .limit(12);
 
+  const allArticles = articles ?? [];
+  const featured = allArticles[0] ?? null;
+  const rest = allArticles.slice(1);
+
   return (
     <>
-      <Hero />
-      <LatestDrops articles={articles ?? []} />
+      <NewsTicker articles={allArticles.map((a) => ({ title: a.title, slug: a.slug }))} />
+      <Hero featured={featured} />
+      <LatestDrops articles={rest} />
     </>
   );
 }
