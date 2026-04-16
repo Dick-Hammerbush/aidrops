@@ -4,7 +4,7 @@ import { AboutContent } from "./AboutContent";
 export const metadata: Metadata = {
   title: "About — AIDrops",
   description:
-    "AIDrops delivers daily drops of the best AI tools, agents, repos, and workflows — discovered on TikTok, rewritten as actionable articles.",
+    "The story behind AIDrops — a project born from too many saved videos and a desire to organize the best AI content in one place.",
 };
 
 export default function AboutPage() {
