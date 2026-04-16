@@ -342,3 +342,92 @@ body {
 .ink-link:hover {
   background-size: 100% 2px;
 }
+
+/* ─── Nav hover underline ──────────────────────────────────── */
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--color-drop);
+  border-radius: 1px;
+  transition: width 280ms var(--ease-out-expo), left 280ms var(--ease-out-expo);
+}
+nav a:hover::after {
+  width: 60%;
+  left: 20%;
+}
+
+/* ─── Card shimmer on hover ────────────────────────────────── */
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    transparent 40%,
+    rgba(255,74,28,0.04) 50%,
+    transparent 60%
+  );
+  background-size: 250% 250%;
+  background-position: 100% 100%;
+  transition: background-position 600ms var(--ease-out-expo);
+  pointer-events: none;
+  z-index: 0;
+}
+.card:hover::before {
+  background-position: 0% 0%;
+}
+
+/* ─── Floating hero orbs ───────────────────────────────────── */
+
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(60px);
+  opacity: 0.15;
+  animation: orb-float 18s ease-in-out infinite alternate;
+}
+
+.hero-orb-1 {
+  width: 200px;
+  height: 200px;
+  background: var(--color-drop);
+  top: 10%;
+  right: 8%;
+  animation-delay: 0s;
+}
+
+.hero-orb-2 {
+  width: 140px;
+  height: 140px;
+  background: var(--color-cat-ai-tools);
+  bottom: 15%;
+  left: 5%;
+  animation-delay: -6s;
+  animation-duration: 22s;
+}
+
+.hero-orb-3 {
+  width: 100px;
+  height: 100px;
+  background: var(--color-spark);
+  top: 50%;
+  right: 25%;
+  animation-delay: -12s;
+  animation-duration: 15s;
+  opacity: 0.1;
+}
+
+@keyframes orb-float {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, -30px) scale(1.1); }
+  66% { transform: translate(-15px, 15px) scale(0.95); }
+  100% { transform: translate(10px, -10px) scale(1.05); }
+}

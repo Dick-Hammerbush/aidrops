@@ -32,6 +32,9 @@ export function Hero({ featured }: { featured?: Article | null }) {
       {/* Animated gradient mesh (pure CSS) */}
       <div className="gradient-mesh" />
       <div className="grain" />
+      <div className="hero-orb hero-orb-1" />
+      <div className="hero-orb hero-orb-2" />
+      <div className="hero-orb hero-orb-3" />
 
       <div className="relative mx-auto max-w-[1280px] px-6 md:px-10">
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10 lg:gap-16 hero-stagger">
