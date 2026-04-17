@@ -1,8 +1,19 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
+
+const ease: [number, number, number, number] = [0.19, 1, 0.22, 1];
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-[color:var(--color-line)] bg-[color:var(--color-paper-soft)]">
+    <motion.footer
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, ease }}
+      className="mt-24 border-t border-[color:var(--color-line)] bg-[color:var(--color-paper-soft)]"
+    >
       <div className="mx-auto max-w-[1280px] px-6 md:px-10 py-12 flex flex-col md:flex-row gap-6 md:items-end md:justify-between">
         <div>
           <div className="type-display text-[1.25rem] font-[510] tracking-[-0.02em]">
@@ -14,21 +25,26 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-sm">
-          <Link href="/" className="text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink)] transition-colors">
-            Home
-          </Link>
-          <Link href="/category/ai-tools" className="text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink)] transition-colors">
-            Categories
-          </Link>
-          <Link href="/about" className="text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink)] transition-colors">
-            About
-          </Link>
+          {[
+            { label: "Home", href: "/" },
+            { label: "How Can I Start?", href: "/start" },
+            { label: "Categories", href: "/category/ai-tools" },
+            { label: "About", href: "/about" },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="text-[color:var(--color-ink-2)] hover:text-[color:var(--color-drop)] transition-colors duration-300"
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
 
         <div className="text-xs text-[color:var(--color-ink-3)] font-mono">
           © {new Date().getFullYear()} AIDrops
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }
