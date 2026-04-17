@@ -1,32 +1,32 @@
 import { createServiceClient } from "@/lib/supabase/server";
-import { StartContent } from "./StartContent";
+import { JourneyWizard } from "./JourneyWizard";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "How Can I Start? — AIDrops",
-  description: "Begin your AI journey without feeling overwhelmed. Curated learning resources and beginner-friendly articles.",
+  description:
+    "Your step-by-step AI journey — from idea to shipped product. No coding experience required.",
 };
 
 export default async function StartPage() {
   const supabase = createServiceClient();
-  const { data: articles } = await supabase
+
+  // Fetch articles grouped by relevant categories for wizard steps
+  const { data: allArticles } = await supabase
     .from("articles")
     .select("id, title, slug, summary, category, difficulty, published_at")
     .eq("status", "published")
-    .eq("category", "learning")
     .order("published_at", { ascending: false });
 
-  // Also grab beginner-difficulty articles from any category as fallback
-  const { data: beginnerArticles } = await supabase
-    .from("articles")
-    .select("id, title, slug, summary, category, difficulty, published_at")
-    .eq("status", "published")
-    .eq("difficulty", "beginner")
-    .order("published_at", { ascending: false })
-    .limit(6);
+  const articles = allArticles ?? [];
 
-  const learningArticles = articles ?? [];
-  const fallbackArticles = beginnerArticles ?? [];
+  // Group by category for wizard steps
+  const byCategory: Record<string, typeof articles> = {};
+  for (const a of articles) {
+    (byCategory[a.category] ??= []).push(a);
+  }
 
-  return <StartContent learningArticles={learningArticles} beginnerArticles={fallbackArticles} />;
+  return <JourneyWizard articlesByCategory={byCategory} />;
 }
