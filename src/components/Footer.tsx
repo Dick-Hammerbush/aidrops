@@ -28,7 +28,7 @@ export function Footer() {
           {[
             { label: "Home", href: "/" },
             { label: "How Can I Start?", href: "/start" },
-            { label: "Categories", href: "/category/ai-tools" },
+            { label: "Categories", href: "/categories" },
             { label: "About", href: "/about" },
           ].map((item) => (
             <Link
