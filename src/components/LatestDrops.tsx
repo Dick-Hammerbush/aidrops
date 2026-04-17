@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { staggerContainer, revealItem } from "@/lib/motion/variants";
 import { ArrowUpRight } from "lucide-react";
 
 type Article = {
@@ -38,13 +37,29 @@ const difficultyColor: Record<string, string> = {
   advanced: "var(--color-diff-advanced)",
 };
 
+const easeOutExpo: [number, number, number, number] = [0.19, 1, 0.22, 1];
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 32, scale: 0.96 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      delay: i * 0.07,
+      ease: easeOutExpo,
+    },
+  }),
+};
+
 export function LatestDrops({ articles }: { articles: Article[] }) {
   if (articles.length === 0) {
     return (
       <section className="mx-auto max-w-[1280px] px-6 md:px-10 mt-20 md:mt-28">
         <div className="mb-8 md:mb-12">
           <div className="type-meta">Latest</div>
-          <h2 className="type-h1 mt-2">Today's drops</h2>
+          <h2 className="type-h1 mt-2">Today&apos;s drops</h2>
         </div>
         <p className="text-center py-16 text-[color:var(--color-ink-3)] type-lede">
           No drops yet. Check back soon.
@@ -55,37 +70,40 @@ export function LatestDrops({ articles }: { articles: Article[] }) {
 
   return (
     <section className="mx-auto max-w-[1280px] px-6 md:px-10 mt-20 md:mt-28">
-      <div className="flex items-end justify-between mb-8 md:mb-12">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
+        className="flex items-end justify-between mb-8 md:mb-12"
+      >
         <div>
           <div className="type-meta">Latest</div>
-          <h2 className="type-h1 mt-2">Today's drops</h2>
+          <h2 className="type-h1 mt-2">Today&apos;s drops</h2>
         </div>
         <div className="hidden md:block text-sm text-[color:var(--color-ink-3)]">
           {articles.length} article{articles.length !== 1 ? "s" : ""} · updated every morning
         </div>
-      </div>
+      </motion.div>
 
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.15 }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"
-      >
-        {articles.map((article) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+        {articles.map((article, i) => (
           <motion.article
             key={article.id}
-            variants={revealItem}
-            whileHover={{ y: -4 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            custom={i}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.15 }}
+            whileHover={{ y: -6, transition: { type: "spring", stiffness: 300, damping: 20 } }}
           >
             <Link href={`/articles/${article.slug}`} className="block h-full">
-              <div className="card group p-6 flex flex-col h-full relative overflow-hidden">
-                {/* Category accent bar — top edge */}
+              <div className="card card-glow group p-6 flex flex-col h-full relative overflow-hidden">
+                {/* Category accent bar */}
                 <span
                   aria-hidden
                   className="absolute top-0 left-0 h-[3px] w-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out"
-                  style={{ background: categoryColor(article.category) }}
+                  style={{ background: `linear-gradient(90deg, ${categoryColor(article.category)}, var(--color-drop))` }}
                 />
 
                 <div className="flex items-center gap-2 mb-5">
@@ -101,7 +119,7 @@ export function LatestDrops({ articles }: { articles: Article[] }) {
                   </span>
                 </div>
 
-                <h3 className="type-h3 mb-3 group-hover:text-[color:var(--color-drop-ink)] transition-colors">
+                <h3 className="type-h3 mb-3 group-hover:text-[color:var(--color-drop-ink)] transition-colors duration-300">
                   {article.title}
                 </h3>
                 {article.summary && (
@@ -135,7 +153,7 @@ export function LatestDrops({ articles }: { articles: Article[] }) {
                       })}
                     </span>
                   </div>
-                  <span className="inline-flex items-center gap-1 font-[510] text-[color:var(--color-ink)] group-hover:text-[color:var(--color-drop)] transition-colors">
+                  <span className="inline-flex items-center gap-1 font-[510] text-[color:var(--color-ink)] group-hover:text-[color:var(--color-drop)] transition-colors duration-300">
                     Read drop
                     <ArrowUpRight
                       size={14}
@@ -147,7 +165,7 @@ export function LatestDrops({ articles }: { articles: Article[] }) {
             </Link>
           </motion.article>
         ))}
-      </motion.div>
+      </div>
     </section>
   );
 }

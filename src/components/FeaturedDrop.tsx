@@ -37,47 +37,56 @@ export function FeaturedDrop({ article }: { article: Article }) {
     <motion.div variants={revealItem} className="mt-0">
       <Link href={`/articles/${article.slug}`} className="block">
         <article
-          className="card group relative overflow-hidden p-6 md:p-8 border-2 hover:shadow-[var(--shadow-lift)]"
+          className="card featured-glow group relative overflow-hidden p-6 md:p-8 border-2 hover:shadow-[var(--shadow-lift)]"
           style={{ borderColor: `color-mix(in oklab, var(--color-drop) 30%, var(--color-line))` }}
         >
           {/* Accent gradient top edge */}
           <span
             aria-hidden
             className="absolute top-0 left-0 h-[4px] w-full"
-            style={{ background: `linear-gradient(90deg, var(--color-drop), ${catColor})` }}
+            style={{ background: `linear-gradient(90deg, var(--color-drop), ${catColor}, var(--color-spark))` }}
           />
 
-          <div className="flex items-center gap-2 mb-4">
-            <span className="pill pill-new">
-              <Sparkles size={10} />
-              Featured
-            </span>
-            <span
-              className="pill"
-              style={{
-                background: `color-mix(in oklab, ${catColor} 12%, transparent)`,
-                color: catColor,
-                borderColor: `color-mix(in oklab, ${catColor} 22%, transparent)`,
-              }}
-            >
-              {categoryLabels[article.category] ?? article.category}
+          {/* Corner accent orb */}
+          <span
+            aria-hidden
+            className="absolute -top-12 -right-12 w-32 h-32 rounded-full opacity-[0.06] group-hover:opacity-[0.12] transition-opacity duration-700"
+            style={{ background: `radial-gradient(circle, var(--color-drop), transparent 70%)` }}
+          />
+
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="pill pill-new">
+                <Sparkles size={10} />
+                Featured
+              </span>
+              <span
+                className="pill"
+                style={{
+                  background: `color-mix(in oklab, ${catColor} 12%, transparent)`,
+                  color: catColor,
+                  borderColor: `color-mix(in oklab, ${catColor} 22%, transparent)`,
+                }}
+              >
+                {categoryLabels[article.category] ?? article.category}
+              </span>
+            </div>
+
+            <h3 className="type-h2 mb-3 group-hover:text-[color:var(--color-drop-ink)] transition-colors duration-300">
+              {article.title}
+            </h3>
+            {article.summary && (
+              <p className="type-lede line-clamp-3 mb-4">{article.summary}</p>
+            )}
+
+            <span className="inline-flex items-center gap-1.5 text-sm font-[510] text-[color:var(--color-drop)] group-hover:gap-2.5 transition-all duration-300">
+              Read this drop
+              <ArrowUpRight
+                size={16}
+                className="transition-transform duration-300 group-hover:translate-x-[2px] group-hover:-translate-y-[2px]"
+              />
             </span>
           </div>
-
-          <h3 className="type-h2 mb-3 group-hover:text-[color:var(--color-drop-ink)] transition-colors">
-            {article.title}
-          </h3>
-          {article.summary && (
-            <p className="type-lede line-clamp-3 mb-4">{article.summary}</p>
-          )}
-
-          <span className="inline-flex items-center gap-1.5 text-sm font-[510] text-[color:var(--color-drop)] group-hover:gap-2.5 transition-all">
-            Read this drop
-            <ArrowUpRight
-              size={16}
-              className="transition-transform duration-300 group-hover:translate-x-[2px] group-hover:-translate-y-[2px]"
-            />
-          </span>
         </article>
       </Link>
     </motion.div>
